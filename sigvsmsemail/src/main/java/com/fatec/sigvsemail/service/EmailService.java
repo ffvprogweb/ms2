@@ -2,6 +2,8 @@ package com.fatec.sigvsemail.service;
 
 import java.time.LocalDateTime;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,7 +17,7 @@ import com.fatec.sigvsemail.model.StatusEmail;
 
 @Service
 public class EmailService {
-
+	Logger logger = LogManager.getLogger(this.getClass());
 	final EmailRepository emailRepository;
 	final JavaMailSender emailSender;
 
@@ -28,22 +30,23 @@ public class EmailService {
 	private String emailFrom;
 
 	@Transactional
-	public Email sendEmail(Email emailModel) {
+	public Email sendEmail(Email email) {
 		try {
-			emailModel.setSendDateEmail(LocalDateTime.now());
-			emailModel.setEmailFrom(emailFrom);
+			email.setSendDateEmail(LocalDateTime.now());
+			email.setEmailFrom(emailFrom);
 
 			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(emailModel.getEmailTo());
-			message.setSubject(emailModel.getSubject());
-			message.setText(emailModel.getText());
+			message.setTo(email.getEmailTo());
+			message.setSubject(email.getSubject());
+			message.setText(email.getText());
 			emailSender.send(message);
 
-			emailModel.setStatusEmail(StatusEmail.SENT);
+			email.setStatusEmail(StatusEmail.SENT);
 		} catch (MailException e) {
-			emailModel.setStatusEmail(StatusEmail.ERROR);
+			logger.info(">>>>> emailservice sendmail erro -> " + e.getMessage());
+			email.setStatusEmail(StatusEmail.ERROR);
 		} finally {
-			return emailRepository.save(emailModel);
+			return emailRepository.save(email);
 		}
 	}
 
