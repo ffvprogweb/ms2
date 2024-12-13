@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+/*
+ * essa classe cria o bean queue utilizada no envio das mensagens
+ */
 @Configuration
 public class RabbitMQConfig {
 	Logger logger = LogManager.getLogger(this.getClass());
