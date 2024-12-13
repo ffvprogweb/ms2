@@ -34,14 +34,16 @@ public class EmailService {
 		try {
 			email.setSendDateEmail(LocalDateTime.now());
 			email.setEmailFrom(emailFrom);
-
+			
+			
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setTo(email.getEmailTo());
 			message.setSubject(email.getSubject());
 			message.setText(email.getText());
+			
 			emailSender.send(message);
-
 			email.setStatusEmail(StatusEmail.SENT);
+		
 		} catch (MailException e) {
 			logger.info(">>>>> emailservice sendmail erro -> " + e.getMessage());
 			email.setStatusEmail(StatusEmail.ERROR);

@@ -1,5 +1,5 @@
 package com.fatec.sigvsemail.model;
 
-public record EmailRecordDto ( Long id, String emailTo, String subject, String text) {
+public record EmailRecordDto ( Long usuarioId, String emailTo, String subject, String text) {
 
 }

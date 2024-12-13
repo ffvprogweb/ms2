@@ -21,7 +21,7 @@ public class EmailConsumer {
 	@RabbitListener(queues = "${broker.queue.email.name}")
 	public void listenEmailQueue(@Payload EmailRecordDto emailRecordDto) {
 		//System.out.println(emailRecordDto.emailTo());
-		logger.info(">>>>> emailconsumer -> ouvindo a fila.");
+		logger.info(">>>>> emailconsumer listen msg recebida do usuarioId-> " + emailRecordDto.usuarioId());
 		var email = new Email();
 		BeanUtils.copyProperties(emailRecordDto, email);//converte dto em model
 		emailService.sendEmail(email);
