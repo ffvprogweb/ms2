@@ -15,9 +15,19 @@ import com.fatec.sigvsemail.service.EmailService;
 public class EmailConsumer {
 	Logger logger = LogManager.getLogger(this.getClass());
 	final EmailService emailService;
+	/**
+	 * Objetivo - instanciar o objeto que vai tratar a logica do envio de emails 
+	 * injecao de dependencia pelo construtor
+	 * @param emailService - servico de email utilizado
+	 */
 	public EmailConsumer (EmailService emailService) {
 		this.emailService = emailService;
 	}
+	/**
+	 * Objetivo - assinar para a lista que a aplicacao deseja ser informada na ocorrencia de novos eventos
+	 * na chegada de um evento passa para o servico para persistir e enviar o email.
+	 * @param emailRecordDto 
+	 */
 	@RabbitListener(queues = "${broker.queue.email.name}")
 	public void listenEmailQueue(@Payload EmailRecordDto emailRecordDto) {
 		//System.out.println(emailRecordDto.emailTo());
