@@ -31,9 +31,8 @@ class Req01CadastrarClienteTests {
 			// comunicação
 
 			CachingConnectionFactory connectionFactory = new CachingConnectionFactory("beaver.rmq.cloudamqp.com");
-			connectionFactory.setUsername("usuario1");
-			connectionFactory.setPassword("mqtt.org.br");
-			connectionFactory.setVirtualHost("usuario1");
+			
+
 			assertNotNull(connectionFactory.createConnection(), "A conexão com o RabbitMQ não foi estabelecida.");
 
 			// Recommended settings
@@ -50,8 +49,8 @@ class Req01CadastrarClienteTests {
 			assertTrue(admin.getQueueProperties("default.email") != null, "A fila não foi criada corretamente.");
 			String routingKey = "default.email";
 			AmqpTemplate template = new RabbitTemplate(connectionFactory);
-			template.convertAndSend("", routingKey, "teste2");
-			System.out.println(">>>>>>>> mensagem enviada");
+			//template.convertAndSend("", routingKey, "teste2");
+			//System.out.println(">>>>>>>> mensagem enviada");
 
 			String msg_recebida = (String) template.receiveAndConvert(routingKey);
 			System.out.println(">>>>>>>> mensagem recebida -> " + msg_recebida);
